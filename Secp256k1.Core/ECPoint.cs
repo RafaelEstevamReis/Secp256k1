@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Numerics;
 
 namespace Secp256k1
@@ -78,6 +79,7 @@ namespace Secp256k1
         //TODO: Rename to Decode (point is implied)
         public static ECPoint DecodePoint(byte[] encoded)
         {
+            var g = string.Join(",", encoded.Select(o => o.ToString()));
             if (encoded == null || ((encoded.Length != 33 && encoded[0] != 0x02 && encoded[0] != 0x03) && (encoded.Length != 65 && encoded[0] != 0x04)))
                 throw new FormatException("Invalid encoded point");
 

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Numerics;
 using System.Text;
 
@@ -8,10 +9,17 @@ namespace Secp256k1.Demo
     {
         private static void Main(string[] args)
         {
+            //var bytes = Secp256k1.G.EncodePoint(true);
+            var bytes = Secp256k1.G.Y.ToByteArray();
+            var hex = string.Join(",", bytes.Select(o => o.ToString()));
+
             //Key Generation
             const string privKeyHex = "E9873D79C6D87DC0FB6A5778633389F4453213303DA61F20BD67FC233AA33262";
             BigInteger privateKey = Hex.HexToBigInteger(privKeyHex);
             ECPoint publicKey = Secp256k1.G.Multiply(privateKey);
+
+            var pubEnc = publicKey.EncodePoint(false).ToHex();
+
             string bitcoinAddressUncompressed = publicKey.GetBitcoinAddress(false);
             string bitcoinAddressCompressed = publicKey.GetBitcoinAddress(compressed: true);
 
